@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Clean Copy",
+  "version": "1.0",
+  "description": "Removes the source identifier (e.g., ?si=) when copying a link from the YouTube share menu.",
+
+  "icons": {
+    "32": "icon32.png",
+    "192": "icon192.png"
+  },
+
+  "permissions": [
+    "notifications"
+  ],
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/watch?v=*"],
+      "js": ["content.js"]
+    }
+  ]
+}
