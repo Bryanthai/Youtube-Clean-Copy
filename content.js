@@ -22,17 +22,19 @@ document.body.addEventListener('click', (event) => {
       let shareUrl = shareUrlInput.value;
       
       if (shareUrl.includes('?')) {
-        shareUrl = shareUrl.split('?')[0];
+        if (shareUrl.includes('t=')) {
+          const url = new URL(shareUrl);
+          const timeParam = url.searchParams.get('t');
+          shareUrl = shareUrl.split('?')[0] + `?t=${timeParam}`;
+        } else {
+          shareUrl = shareUrl.split('?')[0];
+        }
       }
 
       navigator.clipboard.writeText(shareUrl)
         .then(() => {
           console.log('Extension copied CLEAN URL to clipboard:', shareUrl);
           
-          chrome.runtime.sendMessage({ 
-            type: "youtube-copy-clicked",
-            url: shareUrl 
-          });
         })
         .catch(err => {
           console.error('Extension failed to copy URL:', err);
